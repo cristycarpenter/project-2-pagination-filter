@@ -33,19 +33,53 @@ function createPaginationMenu() {
         // Create anchor, add page number as anchor's text, and append anchor to the li.
         var pageLinksAnchor = document.createElement('a'); 
         pageLinksAnchor.innerHTML = i;
-        pageLinksListItem.appendChild(pageLinksAnchor); 
+        pageLinksListItem.appendChild(pageLinksAnchor);
+        
+        //Add class to anchor to use for triggering changes with event listener.
+         pageLinksAnchor.className += 'pageLink';
        
-        console.log("test" + i); // for visibility
+        console.log('test' + i); // for visibility
         
 	}
     
-    // Insert the constructed menu just below the student list
+    // Insert the constructed menu just below the student list.
     $(pageLinksDiv).insertAfter(".student-list");
     
 }
 
 // Call funtion that creates the menu UI.
 createPaginationMenu();
+
+// Add 'active' class to first page link upon page load.
+$('.pageLink:first').addClass('active');
+
+// Adds click event listener that changes students shown as pages are clicked.
+
+    $( '.pageLink' ).click(function() {
+    
+        //  Removes 'active' class from the last link viewed/clicked.
+        $('.pageLink.active').removeClass('active');
+        
+        //  Hides previously viewed student list.
+        $('.student-list li').hide();
+        
+        //  Add 'active' class to page just clicked. 
+        $(this).addClass('active');  
+        
+        //  Determine what page was clicked and store it as a number to perform calculations with. 
+        var $pageNumber = this.text;
+        $pageNumber = Number($pageNumber);
+        $pageNumber = ($pageNumber - 1);
+        
+        // Calculate next student list and show it.
+        var changeStudents = $(".student-list li").slice(($pageNumber * 10), (($pageNumber * 10) + 10)).show();
+        
+    });
+
+
+
+
+
 
 
 
