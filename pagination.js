@@ -1,18 +1,15 @@
-//Determine the list of students.
-
-
 // Store students per page for use in pagination calculations.
 var studentsPerPage = 10;
+
+// Determine the amount of students.
+var studentCount = $('.student-list li').length;
+console.log(studentCount); //for visibility
 
 // Show the first 10 students on page load; hide the others.
 $('.student-list li').slice(studentsPerPage).hide();
 
 // Function for creating the pagination menu.
-function createPaginationMenu() {
-    
-    // Determine the amount of students.
-    var studentCount = $('.student-list li').length;
-    console.log(studentCount); //for visibility
+function createPaginationMenu(studentCount) {
     
     // Determine how many page links are needed.
     var pageCount = studentCount / studentsPerPage;
@@ -48,36 +45,37 @@ function createPaginationMenu() {
     // Insert the constructed menu just below the student list.
     $(pageLinksDiv).insertAfter(".student-list");
     
-}
+    // Add 'active' class to first page link upon page load.
+    $('.pageLink:first').addClass('active');
 
-// Call funtion that creates the menu UI.
-createPaginationMenu();
-
-// Add 'active' class to first page link upon page load.
-$('.pageLink:first').addClass('active');
-
-// Adds click event listener that changes students shown as pages are clicked.
+    // Adds click event listener that changes students shown as pages are clicked.
 
     $( '.pageLink' ).click(function() {
-    
+
         //  Removes 'active' class from the last link viewed/clicked.
         $('.pageLink.active').removeClass('active');
-        
+
         //  Hides previously viewed student list.
         $('.student-list li').hide();
-        
+
         //  Add 'active' class to page just clicked. 
         $(this).addClass('active');  
-        
+
         //  Determine what page was clicked and store it as a number to perform calculations with. 
         var $pageNumber = this.text;
         $pageNumber = Number($pageNumber);
         $pageNumber = ($pageNumber - 1);
-        
+
         // Calculate next student list and show it.
         var changeStudents = $(".student-list li").slice(($pageNumber * 10), (($pageNumber * 10) + 10)).show();
-        
+
     });
+}
+
+// Execute pagination. 
+createPaginationMenu(studentCount);
+
+
 
 
 
