@@ -1,3 +1,6 @@
+//Determine the list of students.
+
+
 // Store students per page for use in pagination calculations.
 var studentsPerPage = 10;
 
